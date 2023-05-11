@@ -117,7 +117,8 @@ sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sour
 sudo apt update
 sudo apt install -y jenkins
 #if port 8080 already taken
-sudo sed -i 's/HTTP_PORT=8080/HTTP_PORT=8081/g' /lib/systemd/system/jenkins.service
+#sudo sed -i 's/HTTP_PORT=8080/HTTP_PORT=8081/g' /lib/systemd/system/jenkins.service
+sudo sed -i 's/JENKINS_PORT=8080/JENKINS_PORT=8081/g' /lib/systemd/system/jenkins.service
 
 sudo systemctl daemon-reload
 sudo systemctl enable jenkins
