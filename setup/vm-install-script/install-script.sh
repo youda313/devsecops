@@ -77,16 +77,10 @@ sudo systemctl restart containerd
 
 # Initialize kubernetes cluster
 #sudo kubeadm init --kubernetes-version=${KUBE_VERSION} --skip-token-print
-
-sudo kubeadm init --pod-network-cidr=10.244.10.0/16 --apiserver-advertise-address=10.0.15.10 --kubernetes-version=${KUBE_VERSION} --skip-token-print
-
-
-
-
+sudo kubeadm init --pod-network-cidr=10.244.10.0/16 --kubernetes-version=${KUBE_VERSION} --skip-token-print
 
 # uncomment below line if your host doesnt have minimum requirement of 2 CPU
 # kubeadm init --kubernetes-version=${KUBE_VERSION} --ignore-preflight-errors=NumCPU --skip-token-print
-# kubeadm init --kubernetes-version=${KUBE_VERSION} --skip-token-print
 
 mkdir -p ~/.kube
 sudo cp -f /etc/kubernetes/admin.conf ~/.kube/config
