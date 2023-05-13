@@ -68,7 +68,8 @@ sudo modprobe br_netfilter
 sudo sed -i 's/^#\(net\.ipv4\.ip_forward=1\)/\1/' /etc/sysctl.conf
 sudo sysctl -w net.ipv4.ip_forward=1
 # DISABLED No SWAP enabled on cloud machines
-sudo sed -i '/ swap / s/^ (.*)$/#1/g' /etc/fstab
+# sudo sed -i '/ swap / s/^ (.*)$/#1/g' /etc/fstab
+sudo sed -i '/\bswap\b/s/^/#/' /etc/fstab
 sudo swapoff -a
 
 sudo rm -rf /etc/containerd/config.toml
