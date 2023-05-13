@@ -44,7 +44,8 @@ pipeline {
                     sh "mvn clean verify sonar:sonar \
                                 -Dsonar.projectKey=numeric-application \
                                 -Dsonar.projectName='numeric-application' \
-                                -Dsonar.host.url='http://192.168.1.201:9000'"
+                                -Dsonar.host.url=http://192.168.1.201:9000 \
+                                -Dsonar.token=sqp_dfb97ec3c4ef6ac8c009c58190ded8e1afe2425f"
                 }
                 // timeout(time: 2, unit: 'MINUTES') {
                 //     script {
