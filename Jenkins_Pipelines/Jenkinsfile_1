@@ -1,3 +1,5 @@
+//Take this file and replace the Jenkinsfile in the root directory
+//Testing the tools
 pipeline {
     agent any
 
