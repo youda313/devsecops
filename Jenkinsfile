@@ -28,7 +28,7 @@ pipeline {
 
         stage('Docker Build and Push') {
             steps {
-                withDockerRegistry([credentialsId: "docker-hub-token"]) {
+                withDockerRegistry([credentialsId: "docker-hub-token", url: "") {
                 sh 'printenv'
                 sh 'sudo docker build -t youda313/numeric-app:""$GIT_COMMIT"" .'
                 sh 'docker push youda313/numeric-app:""$GIT_COMMIT""'
