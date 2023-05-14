@@ -55,11 +55,7 @@ pipeline {
                     }
                 }
             }
-            post {
-                always {
-                    recordIssues enabledForFailure: true, tool: sonarQubeServer()
-                }
-            }
+ 
         }
 
         stage('Vulnerability Scan - Docker') {
