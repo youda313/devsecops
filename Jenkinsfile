@@ -1,7 +1,7 @@
 //Take this file and replace the Jenkinsfile in the root directory
 //make sure to select 'pipeline script from SCM' then Gitand set the repo URL
 //make sure to tick the GitHub hook trigger for GITScm polling
-// Dependency checks
+// REFACTORING POST ACTIONS
 
 pipeline {
     agent any
@@ -17,12 +17,6 @@ pipeline {
         stage('Unit Tests') {
             steps {
                 sh "mvn test"
-            }
-            post { 
-                always { 
-                    junit 'target/surefire-reports/*.xml'
-                    jacoco execPattern: 'target/jacoco.exec'
-                }
             }
         }
 
@@ -64,11 +58,6 @@ pipeline {
             steps {
                 sh "mvn dependency-check:check"
             }
-            post{
-                always{
-                    dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
-                }
-            }
         }
 
 
@@ -101,5 +90,15 @@ pipeline {
 
 
     }
+    post { 
+        always { 
+            junit 'target/surefire-reports/*.xml'
+            jacoco execPattern: 'target/jacoco.exec'
+            //pitmutation mutationStatsFile: '**/target/pit-reports/**/mutations.xml'
+            dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
 
+        }
+        //success{}
+        //failure{}
+    }
 }
