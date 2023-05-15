@@ -1,7 +1,7 @@
 //Take this file and replace the Jenkinsfile in the root directory
 //make sure to select 'pipeline script from SCM' then Gitand set the repo URL
 //make sure to tick the GitHub hook trigger for GITScm polling
-// REFACTORING POST ACTIONS
+// adding trivy scan
 
 pipeline {
     agent any
@@ -56,7 +56,14 @@ pipeline {
 
         stage('Vulnerability Scan - Docker') {
             steps {
-                sh "mvn dependency-check:check"
+                parallel(
+                    "Dependency Scan": {
+                        sh "mvn dependency-check:check"
+                    },
+                    "Trivy Scan": {
+                        sh "bash trivy-docker-image-scan.sh"
+                    }
+                )
             }
         }
 
