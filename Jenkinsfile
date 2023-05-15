@@ -1,7 +1,7 @@
 //Take this file and replace the Jenkinsfile in the root directory
 //make sure to select 'pipeline script from SCM' then Gitand set the repo URL
 //make sure to tick the GitHub hook trigger for GITScm polling
-// REFACTORING POST ACTIONS
+// Dependency checks
 
 pipeline {
     agent any
@@ -18,11 +18,22 @@ pipeline {
             steps {
                 sh "mvn test"
             }
+            post { 
+                always { 
+                    junit 'target/surefire-reports/*.xml'
+                    jacoco execPattern: 'target/jacoco.exec'
+                }
+            }
         }
 
         stage('Mutation Tests - PIT') {
             steps {
                 sh "mvn org.pitest:pitest-maven:mutationCoverage"
+            }
+            post{
+                always{
+                    pitmutation mutationStatsFile: '**/target/pit-reports/**/mutations.xml'
+                }
             }
         }
 
@@ -35,7 +46,9 @@ pipeline {
                                     -Dsonar.projectKey=numeric-application \
                                     -Dsonar.projectName='numeric-application' \
                                     -Dsonar.host.url=http://192.168.1.201:9000 \
-                                    -Dsonar.token=sqp_e9343ff021ddb4c4502762e8d8289f87952d45ad"
+                                    -Dsonar.token=sqp_e9343ff021ddb4c4502762e8d8289f87952d45ad \
+                                    -Dsonar.exclusions=target/** \
+                                    -Dsonar.pitest.mode=reuseReport"
                 }
                 
                 timeout(time: 2, unit: 'MINUTES') {
@@ -50,6 +63,11 @@ pipeline {
         stage('Vulnerability Scan - Docker') {
             steps {
                 sh "mvn dependency-check:check"
+            }
+            post{
+                always{
+                    dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
+                }
             }
         }
 
@@ -83,15 +101,5 @@ pipeline {
 
 
     }
-    post { 
-        always { 
-            junit 'target/surefire-reports/*.xml'
-            jacoco execPattern: 'target/jacoco.exec'
-            pitmutation mutationStatsFile: '**/target/pit-reports/**/mutations.xml'
-            dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
 
-        }
-        //success{}
-        //failure{}
-    }
 }

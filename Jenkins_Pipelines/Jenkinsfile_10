@@ -46,7 +46,9 @@ pipeline {
                                     -Dsonar.projectKey=numeric-application \
                                     -Dsonar.projectName='numeric-application' \
                                     -Dsonar.host.url=http://192.168.1.201:9000 \
-                                    -Dsonar.token=sqp_e9343ff021ddb4c4502762e8d8289f87952d45ad"
+                                    -Dsonar.token=sqp_e9343ff021ddb4c4502762e8d8289f87952d45ad \
+                                    -Dsonar.exclusions=target/** \
+                                    -Dsonar.pitest.mode=reuseReport"
                 }
                 
                 timeout(time: 2, unit: 'MINUTES') {
