@@ -1,10 +1,19 @@
 //Take this file and replace the Jenkinsfile in the root directory
 //make sure to select 'pipeline script from SCM' then Gitand set the repo URL
 //make sure to tick the GitHub hook trigger for GITScm polling
-// adding OPA conftest for K8s
+// K8s deployment rollout + env variables
 
 pipeline {
     agent any
+
+    environment {
+        deploymentName = "devsecops"
+        containerName = "devsecops-container"
+        serviceName = "devsecops-svc"
+        imageName = "youda313/numeric-app:${GIT_COMMIT}"
+        //applicationURL="https://8081-port-91a7825b171b450c.labs.kodekloud.com"
+        //applicationURI="/increment/99"
+    }
 
     stages {
         stage('build artifact') {
@@ -94,18 +103,20 @@ pipeline {
 
         stage('K8S Deployment - DEV') {
             steps {
-                withKubeConfig([credentialsId: 'kubeconfig']) {
-                    sh 'printenv'
-                    sh "sed -i 's#replace#youda313/numeric-app:${GIT_COMMIT}#g' k8s_deployment_service.yaml"
-                    sh "kubectl apply -f k8s_deployment_service.yaml"
-                }
+                parallel(
+                    "Deployment": {
+                        withKubeConfig([credentialsId: 'kubeconfig']) {
+                        sh "bash k8s-deployment.sh"
+                        }
+                    },
+                    "Rollout Status": {
+                        withKubeConfig([credentialsId: 'kubeconfig']) {
+                        sh "bash k8s-deployment-rollout-status.sh"
+                        }
+                    }
+                )
             }
-          
         }
-
-
-    
-
 
     }
     post { 
