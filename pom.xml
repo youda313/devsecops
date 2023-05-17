@@ -20,7 +20,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<tomcat.version>9.0.75</tomcat.version>
-		<log4j-api.version>2.20.0</log4j-api.version>
+		<log4j.version>2.20.0</log4j.version>
 		<spring-security.version>5.4.11</spring-security.version>
 	</properties>
 
@@ -52,6 +52,12 @@
 		    <artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 	</dependencies>
+
+	<dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+    	    <artifactId>log4j-api</artifactId>
+        <version>${log4j.version}</version>
+    </dependency>
 
 	<build>
 		<plugins>
