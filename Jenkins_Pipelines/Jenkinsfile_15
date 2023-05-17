@@ -11,7 +11,7 @@ pipeline {
         containerName = "devsecops-container"
         serviceName = "devsecops-svc"
         imageName = "youda313/numeric-app:${GIT_COMMIT}"
-        //applicationURL="https://8081-port-91a7825b171b450c.labs.kodekloud.com"
+        //applicationURL="http://192.168.1.201:30876"
         //applicationURI="/increment/99"
     }
 
@@ -100,7 +100,7 @@ pipeline {
             }
         }
 
-
+// Note these should be 2 different stages instead of parallel
         stage('K8S Deployment - DEV') {
             steps {
                 parallel(
