@@ -20,6 +20,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<tomcat.version>9.0.75</tomcat.version>
+		<log4j-api.version>2.20.0</log4j-api.version>
 		<spring-security.version>5.4.11</spring-security.version>
 	</properties>
 
