@@ -8,10 +8,10 @@
 # scan_score=$(curl -sSX POST --data-binary @"k8s_deployment_service.yaml" https://v2.kubesec.io/scan | jq .[0].score ) 
 
 
-# using kubesec docker image for scanning test
-scan_result=$(docker run -i kubesec/kubesec:v2 scan /dev/stdin < k8s_deployment_service.yaml)
-scan_message=$(docker run -i kubesec/kubesec:v2 scan /dev/stdin < k8s_deployment_service.yaml | jq .[].message -r)
-scan_score=$(docker run -i kubesec/kubesec:v2 scan /dev/stdin < k8s_deployment_service.yaml | jq .[].score)
+# using kubesec docker image for scanning
+scan_result=$(docker run -i kubesec/kubesec:512c5e0 scan /dev/stdin < k8s_deployment_service.yaml)
+scan_message=$(docker run -i kubesec/kubesec:512c5e0 scan /dev/stdin < k8s_deployment_service.yaml | jq .[].message -r)
+scan_score=$(docker run -i kubesec/kubesec:512c5e0 scan /dev/stdin < k8s_deployment_service.yaml | jq .[].score)
 
 	
     # Kubesec scan result processing
