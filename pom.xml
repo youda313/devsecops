@@ -18,10 +18,12 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<spring-security.version>5.4.11</spring-security.version>
 		<java.version>1.8</java.version>
 		<tomcat.version>9.0.75</tomcat.version>
 		<log4j.version>2.20.0</log4j.version>
-		<spring-security.version>5.4.11</spring-security.version>
+		<jackson.version>2.15.0</jackson.version>
+		<snakeyaml.version>2.0</snakeyaml.version>
 	</properties>
 
 	<dependencies>
@@ -32,6 +34,10 @@
 				<exclusion>
 					<groupId>org.apache.logging.log4j</groupId>
 					<artifactId>log4j-to-slf4j</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.fasterxml.jackson.core</groupId>
+                	<artifactId>jackson-databind</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -63,6 +69,20 @@
 				<artifactId>log4j-api</artifactId>
 			<version>${log4j.version}</version>
 		</dependency>
+
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-core</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.yaml</groupId>
+			<artifactId>snakeyaml</artifactId>
+			<version>${snakeyaml.version}</version>
+    	</dependency>
+
 	</dependencies>
 
 	<build>
