@@ -18,8 +18,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<!-- <spring-security.version>5.4.11</spring-security.version> -->
-		<spring-security.version>5.5.7</spring-security.version>
+		<spring-security.version>5.4.11</spring-security.version>
 		<java.version>1.8</java.version>
 		<tomcat.version>9.0.75</tomcat.version>
 		<log4j.version>2.20.0</log4j.version>
