@@ -1,7 +1,7 @@
 //Take this file and replace the Jenkinsfile in the root directory
 //make sure to select 'pipeline script from SCM' then Gitand set the repo URL
 //make sure to tick the GitHub hook trigger for GITScm polling
-// Kubesec + trivy for K8s
+// Integration tests
 
 pipeline {
     agent any
@@ -11,8 +11,8 @@ pipeline {
         containerName = "devsecops-container"
         serviceName = "devsecops-svc"
         imageName = "youda313/numeric-app:${GIT_COMMIT}"
-        //applicationURL="http://192.168.1.201:30876"
-        //applicationURI="/increment/99"
+        applicationURL="http://mattlab.ddns.net"
+        applicationURI="/increment/99"
     }
 
     stages {
@@ -125,6 +125,24 @@ pipeline {
                         }
                     }
                 )
+            }
+        }
+
+
+        stage('Integration Tests - DEV') {
+            steps {
+                script {
+                    try {
+                        withKubeConfig([credentialsId: 'kubeconfig']) {
+                        sh "bash integration-test.sh"
+                        }
+                    } catch (e) {
+                        withKubeConfig([credentialsId: 'kubeconfig']) {
+                        sh "kubectl -n default rollout undo deploy ${deploymentName}"
+                        }
+                        throw e
+                    }
+                }
             }
         }
 
