@@ -151,4 +151,4 @@ slackSend(color: color, message: msg)
 
 //  slackSend(iconEmoji: emoji, attachments: attachments)
 
-// }
+}
