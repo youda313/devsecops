@@ -17,6 +17,17 @@ pipeline {
     }
 
     stages {
+        stage('test sonarqube token retrieval from Vault'){
+            steps {
+                withCredentials([vaultString(credentialsId: 'sonarqube-auth-token', variable: 'MYSECRET')]) {
+                    sh '''
+                        curl -X "GET" "http://10.32.0.9:8200/v1/crds/data/sonarqube" -H "accept: application/json" -H "X-Vault-Token: $MYSECRET"
+                    '''
+                }                    
+            }
+        }
+
+
         stage('build artifact') {
             steps {
                 sh "mvn clean package -DskipTests=true"
