@@ -1,7 +1,7 @@
 //Take this file and replace the Jenkinsfile in the root directory
 //make sure to select 'pipeline script from SCM' then Gitand set the repo URL
 //make sure to tick the GitHub hook trigger for GITScm polling
-// CIS benchmark
+// deployment to PROD
 
 @Library('slack') _
 
@@ -169,23 +169,70 @@ pipeline {
         }
 
         stage('K8S CIS Benchmark') {
-            steps {
-                script {
-                    parallel(
-                        "Master": {
-                        sh "bash cis-master.sh"
-                        },
-                        "Etcd": {
-                        sh "bash cis-etcd.sh"
-                        },
-                        "Kubelet": {
-                        sh "bash cis-kubelet.sh"
-                        }
-                    )
+        steps {
+            script {
+                parallel(
+                    "Master": {
+                    sh "bash cis-master.sh"
+                    },
+                    "Etcd": {
+                    sh "bash cis-etcd.sh"
+                    },
+                    "Kubelet": {
+                    sh "bash cis-kubelet.sh"
+                    }
+                )
 
-                }
             }
         }
+    }
+
+    // stage('K8S Deployment - PROD') {
+    //     steps {
+    //         parallel(
+    //             "Deployment": {
+    //                 withKubeConfig([credentialsId: 'kubeconfig']) {
+    //                 sh "sed -i 's#replace#${imageName}#g' k8s_PROD-deployment_service.yaml"
+    //                 sh "kubectl -n prod apply -f k8s_PROD-deployment_service.yaml"
+    //                 }
+    //             },
+    //             "Rollout Status": {
+    //                 withKubeConfig([credentialsId: 'kubeconfig']) {
+    //                 sh "bash k8s-PROD-deployment-rollout-status.sh"
+    //                 }
+    //             }
+    //         )
+    //     }
+    // }
+
+    // stage('Integration Tests - PROD') {
+    //     steps {
+    //         script {
+    //             try {
+    //                 withKubeConfig([credentialsId: 'kubeconfig']) {
+    //                 sh "bash integration-test-PROD.sh"
+    //                 }
+    //             } catch (e) {
+    //                 withKubeConfig([credentialsId: 'kubeconfig']) {
+    //                 sh "kubectl -n prod rollout undo deploy ${deploymentName}"
+    //                 }
+    //                 throw e
+    //             }
+    //         }
+    //     }
+    // }   
+
+        // stage('Testing Slack - 1') {
+        //     steps {
+        //         sh 'exit 0'
+        //     }
+        // }
+
+        // stage('Testing Slack - Error Stage') {
+        //     steps {
+        //         sh 'exit 0'
+        //     }
+        // }
 
     }
     post { 

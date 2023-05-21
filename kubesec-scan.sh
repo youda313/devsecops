@@ -12,9 +12,9 @@ awk '/---/{exit} 1' k8s_deployment_service.yaml > K8s_deployment_only.yaml
 
 
 # using kubesec docker image for scanning
-scan_result=$(docker run -i kubesec/kubesec:512c5e0 scan /dev/stdin < K8s_deployment_only.yaml)
-scan_message=$(docker run -i kubesec/kubesec:512c5e0 scan /dev/stdin < K8s_deployment_only.yaml | jq .[].message -r)
-scan_score=$(docker run -i kubesec/kubesec:512c5e0 scan /dev/stdin < K8s_deployment_only.yaml | jq .[].score)
+scan_result=$(docker run --rm -i kubesec/kubesec:512c5e0 scan /dev/stdin < K8s_deployment_only.yaml)
+scan_message=$(docker run --rm -i kubesec/kubesec:512c5e0 scan /dev/stdin < K8s_deployment_only.yaml | jq .[].message -r)
+scan_score=$(docker run --rm -i kubesec/kubesec:512c5e0 scan /dev/stdin < K8s_deployment_only.yaml | jq .[].score)
 
 rm -rf K8s_deployment_only.yaml
 	

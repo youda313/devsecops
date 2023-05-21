@@ -1,7 +1,9 @@
 //Take this file and replace the Jenkinsfile in the root directory
 //make sure to select 'pipeline script from SCM' then Gitand set the repo URL
 //make sure to tick the GitHub hook trigger for GITScm polling
-// CIS benchmark
+// TODO add a path to the app at /vault_integration
+// https://spring.io/guides/gs/accessing-vault/
+//modification were donw inside the /src/main/java/com/devsecops folder
 
 @Library('slack') _
 
@@ -160,7 +162,7 @@ pipeline {
             }
         }
 
-        stage('Prompt to PROD?') {
+        stage('Prompte to PROD?') {
             steps {
                 timeout(time: 2, unit: 'DAYS') {
                 input 'Do you want to Approve the Deployment to Production Environment/Namespace?'
@@ -168,24 +170,17 @@ pipeline {
             }
         }
 
-        stage('K8S CIS Benchmark') {
-            steps {
-                script {
-                    parallel(
-                        "Master": {
-                        sh "bash cis-master.sh"
-                        },
-                        "Etcd": {
-                        sh "bash cis-etcd.sh"
-                        },
-                        "Kubelet": {
-                        sh "bash cis-kubelet.sh"
-                        }
-                    )
+        // stage('Testing Slack - 1') {
+        //     steps {
+        //         sh 'exit 0'
+        //     }
+        // }
 
-                }
-            }
-        }
+        // stage('Testing Slack - Error Stage') {
+        //     steps {
+        //         sh 'exit 0'
+        //     }
+        // }
 
     }
     post { 
